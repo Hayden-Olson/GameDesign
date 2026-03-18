@@ -6,7 +6,7 @@ func _physics_process(delta: float) -> void:
 	const SPEED = 1000
 	const RANGE = 1200
 	
-	var direction = Vector2.UP
+	var direction = -transform.y
 	position += direction * SPEED * delta
 
 	travelled_distance += SPEED * delta

@@ -1,10 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://da7205gitpgf5"]
+[gd_scene load_steps=4 format=3 uid="uid://da7205gitpgf5"]
 
 [ext_resource type="PackedScene" uid="uid://ns3dghg7dqfm" path="res://player.tscn" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://cw8kqquqsrov2" path="res://game.gd" id="1_e2o6t"]
+[ext_resource type="PackedScene" uid="uid://broti2s27wekt" path="res://wall.tscn" id="2_feb5d"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_e2o6t")
+
+[node name="Wall2" parent="." instance=ExtResource("2_feb5d")]
+visible = false
+position = Vector2(1152, 400)
+
+[node name="Wall" parent="." instance=ExtResource("2_feb5d")]
+visible = false
+position = Vector2(0, 400)
 
 [node name="Background" type="ColorRect" parent="."]
 unique_name_in_owner = true

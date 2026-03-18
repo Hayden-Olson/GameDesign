@@ -10,3 +10,16 @@ func _physics_process(delta: float) -> void:
 	#get_node("").play_walk_animation()
 #else:
 	#get_node("").play_idle_animation()
+	
+
+func shoot():
+	const BULLET = preload("res://bullet.tscn")
+	var new_bullet = BULLET.instantiate()
+	 # Add the bullet to the scene tree root instead of the player
+	get_tree().current_scene.add_child(new_bullet)
+	new_bullet.global_position = global_position # Use marker for accurate position
+	new_bullet.global_rotation = global_rotation
+	
+func _input(event):
+	if event.is_action_pressed("shoot"):
+		shoot()
