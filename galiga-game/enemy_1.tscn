@@ -1,8 +1,18 @@
 [gd_scene load_steps=2 format=3 uid="uid://d0abx8ajnnu48"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6rg8l"]
+size = Vector2(40, 39)
 
 [node name="Enemy1" type="CharacterBody2D"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="ColorRect" type="ColorRect" parent="."]
+visibility_layer = 3
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+color = Color(0.41215247, 0.41215247, 0.41215247, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect"]
+position = Vector2(20, 20.5)
 shape = SubResource("RectangleShape2D_6rg8l")
