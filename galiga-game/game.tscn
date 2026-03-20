@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://da7205gitpgf5"]
+[gd_scene load_steps=5 format=3 uid="uid://da7205gitpgf5"]
 
 [ext_resource type="PackedScene" uid="uid://ns3dghg7dqfm" path="res://player.tscn" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://cw8kqquqsrov2" path="res://game.gd" id="1_e2o6t"]
 [ext_resource type="PackedScene" uid="uid://broti2s27wekt" path="res://wall.tscn" id="2_feb5d"]
+[ext_resource type="PackedScene" uid="uid://d0abx8ajnnu48" path="res://enemy_1.tscn" id="4_fc0e3"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_e2o6t")
@@ -25,3 +26,7 @@ color = Color(0.2735879, 0.017214457, 0.2667722, 1)
 [node name="Player" parent="." instance=ExtResource("1_80nbo")]
 unique_name_in_owner = true
 position = Vector2(576, 628)
+
+[node name="Enemy1" parent="." instance=ExtResource("4_fc0e3")]
+position = Vector2(567, 218)
+rotation = 3.1415927
