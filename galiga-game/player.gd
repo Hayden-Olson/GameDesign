@@ -1,5 +1,9 @@
 extends CharacterBody2D
 
+var next_shoot_time = 0
+@export var blaster_rate = 0.5  #Time between shots
+@export var health = 1
+
 func _physics_process(delta: float) -> void:
 	var direction = Input.get_vector("move_left", "move_right", "move_down", "move_up")
 	velocity = direction * 600
@@ -22,4 +26,11 @@ func shoot():
 	
 func _input(event):
 	if event.is_action_pressed("shoot"):
-		shoot()
+		if Time.get_ticks_msec() >= next_shoot_time:
+			shoot()
+			next_shoot_time = Time.get_ticks_msec() + blaster_rate
+
+func take_damage():
+	health -= 1
+	if health <= 0:
+		queue_free()

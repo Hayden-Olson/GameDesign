@@ -1,15 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://broti2s27wekt"]
-
-[ext_resource type="Script" uid="uid://j261wonki8rp" path="res://wall.gd" id="1_xxgf6"]
+[gd_scene load_steps=2 format=3 uid="uid://cl5qxfy2vkfq4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oh6kn"]
 size = Vector2(40, 40)
 
-[node name="Wall" type="Area2D"]
+[node name="Wall" type="RigidBody2D"]
 scale = Vector2(1, 20)
 collision_layer = 4
 collision_mask = 7
-script = ExtResource("1_xxgf6")
+gravity_scale = 0.0
+lock_rotation = true
+freeze = true
+continuous_cd = 2
+contact_monitor = true
+max_contacts_reported = 20
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 1.8477441e-07)

@@ -1,18 +1,11 @@
 extends CharacterBody2D
-var right = true
-var direction = 0
-
-func _physics_process(delta: float) -> void:
-	const SPEED = 200
-	const RANGE = 1200
-	if right == true:
-		direction = -transform.x
-	else:
-		direction = transform.x
-	position += direction * SPEED * delta
 
 
+@export var health = 2
 
+#_init():
+	
+# Shoot behavior is handled here.
 func shoot():
 	const BULLET = preload("res://enemy_bullet.tscn")
 	var new_bullet = BULLET.instantiate()
@@ -22,11 +15,15 @@ func shoot():
 	new_bullet.global_rotation = global_rotation
 	
 
+# Enemy damage is handled here.
+func take_damage():
+	health -= 1
+	if health <= 0:
+		queue_free()
 
-func _on_timer_timeout() -> void:
-	shoot()
-	if right == true:
-		right = false
-	elif right == false:
-		right == true
-	%Timer.autostart = true
+
+func _on_ready() -> void:
+	pass # Replace with function body.
+
+func set_cluster_position(position:Area2D, enemy:Enemy):
+	pass
