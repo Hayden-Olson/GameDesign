@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 var next_shoot_time = 0
 @export var blaster_rate = 0.5  #Time between shots
-@export var health = 1
+@export var health = 5
 
 func _physics_process(delta: float) -> void:
 	var direction = Input.get_vector("move_left", "move_right", "move_down", "move_up")

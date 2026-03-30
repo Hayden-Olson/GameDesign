@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://bklj1liqfdfcp"]
+
+[sub_resource type="Curve2D" id="Curve2D_svoyg"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 573, -4, 15.94405, -79.72025, -15.94405, 79.72025, 570, 129, 35.43122, -65.54776, -35.43122, 65.54776, 515, 274, 104.52211, 7.0862436, -104.52211, -7.0862436, 290, 439, 85.034935, 74.40557, -85.034935, -74.40557, 104, 372, -63.7762, 118.694595, 63.7762, -118.694595, 93, 78, -53.146835, -42.517475, 53.146835, 42.517475, 373, 44, 42.517464, -56.68996, -42.517464, 56.68996, 465, 181, 65.54776, 76.17713, -65.54776, -76.17713, 210, 281, 0, 0, 0, 0, 265, 172)
+}
+point_count = 10
+
+[node name="Path3" type="Node2D"]
+metadata/_edit_vertical_guides_ = [576.0]
+
+[node name="Path2D" type="Path2D" parent="."]
+position = Vector2(75, 15.999992)
+scale = Vector2(0.8593129, 0.81038374)
+curve = SubResource("Curve2D_svoyg")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(573, -4)
+rotation = 1.3324689

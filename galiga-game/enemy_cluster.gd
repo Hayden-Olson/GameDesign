@@ -70,10 +70,16 @@ func _spawn_enemy_at_index(grid_index: int) -> void:
 	var position_node = row_node.get_node("Position%d" % (col + 1))
  
 	var new_enemy = ENEMY.instantiate()
-	get_tree().current_scene.add_child(new_enemy)
+	var path_node = get_node("/root/Game/Path1/Path2D")
+	var enemy_path := PathFollow2D.new()
+	enemy_path.loop = false
+	
+	path_node.add_child(enemy_path)
+	enemy_path.add_child(new_enemy)
+	
 	enemy_list.append(new_enemy)
+	new_enemy.global_position = Vector2(570,-170)
 	new_enemy.set_cluster_position(position_node, self)
- 
 # This function ensures the spawn queue and enemy list are empty before leveling up.
 func remove_enemy(enemy) -> void:
 	enemy_list.erase(enemy)
@@ -83,7 +89,7 @@ func remove_enemy(enemy) -> void:
 # Adds to the level
 func level_up() -> void:
 	level += 1
-	var enemies_to_spawn = min(30 + (level - 1) * 2, max_enemy_limit)
+	var enemies_to_spawn = min(30 + (level - 1) + 2, max_enemy_limit)
 	spawn_queue.clear()
 	for i in range(enemies_to_spawn):
 		spawn_queue.append(i)

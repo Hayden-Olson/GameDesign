@@ -1,16 +1,15 @@
 extends Area2D
 
 var travelled_distance = 0
+@export var speed = 1000
+var range = 1200
 
 func _physics_process(delta: float) -> void:
-	const SPEED = 1000
-	const RANGE = 1200
-	
 	var direction = -transform.y
-	position += direction * SPEED * delta
+	position += direction * speed * delta
 
-	travelled_distance += SPEED * delta
-	if travelled_distance > RANGE:
+	travelled_distance += speed * delta
+	if travelled_distance > range:
 		queue_free()
 
 func _on_body_entered(body: Node2D) -> void:
