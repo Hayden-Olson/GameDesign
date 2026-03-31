@@ -32,5 +32,7 @@ func _input(event):
 
 func take_damage():
 	health -= 1
+	#NOTIFICATION_VISIBILITY_CHANGED
+	#self.visibility_changed
 	if health <= 0:
 		queue_free()

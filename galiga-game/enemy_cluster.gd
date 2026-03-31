@@ -53,14 +53,15 @@ func _on_area_entered(body):
 func _spawn_next_in_queue() -> void:
 	if spawn_queue.size() == 0:
 		return
+		# Check limit BEFORE popping
+	if enemy_list.size() >= max_enemy_limit:
+		spawn_queue.clear()  # No point keeping the queue if we're at the limit
+		return
 	var grid_index = spawn_queue.pop_front()
 	_spawn_enemy_at_index(grid_index)
  
 # Grid index is then passed here to figure out where the current enemy should spawn in the grid.
 func _spawn_enemy_at_index(grid_index: int) -> void:
-	if enemy_list.size() >= max_enemy_limit:
-		return
- 
 	var column_order = _get_column_order()
 	var row = grid_index / 16          # 0-indexed row
 	var col_slot = grid_index % 16     # position within column order
@@ -76,13 +77,15 @@ func _spawn_enemy_at_index(grid_index: int) -> void:
 	
 	path_node.add_child(enemy_path)
 	enemy_path.add_child(new_enemy)
-	
-	enemy_list.append(new_enemy)
 	new_enemy.global_position = Vector2(570,-170)
 	new_enemy.set_cluster_position(position_node, self)
+	enemy_list.append(new_enemy)
+	
 # This function ensures the spawn queue and enemy list are empty before leveling up.
 func remove_enemy(enemy) -> void:
+	print_debug("Removing: ", enemy, " | List before: ", enemy_list.size())
 	enemy_list.erase(enemy)
+	print_debug("List after: ", enemy_list.size(), " | Queue: ", spawn_queue.size())
 	if enemy_list.size() == 0 and spawn_queue.size() == 0:
 		level_up()
  

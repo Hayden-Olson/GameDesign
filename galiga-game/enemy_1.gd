@@ -21,6 +21,7 @@ var player_position
 var dive_rate := 0
 var next_dive_time := 10000
 var is_diving = false
+@onready var player = get_node("/root/Game/Player")
 
 func _ready():
 	# randf() returns a value between 0.0 and 1.0
@@ -82,7 +83,7 @@ func take_damage():
 	health -= 1
 	if health <= 0:
 		# Call cluster script for removing enemy
-		await enemy_cluster.remove_enemy(owner)
+		enemy_cluster.remove_enemy(self)
 		queue_free()
 
 func set_cluster_position(PositionNode:Area2D, cluster:Area2D):
@@ -99,12 +100,21 @@ func entry_movement():
 func dive_movement(delta: float):
 	# Tuen idle off
 	# Find current player position
-	var player = get_node("/root/Game/Player")
+	
 	# move toward position
-	player_position = player.global_position
-	player_position *= 1.1
+	# If player is dead, then cancel dive.
+	if player == null:
+		return
+	else:
+		player_position = player.global_position
+		player_position *= 1.1
 	# shoot while movingaaa
 	dive_rate = randf_range(10000,20000)
 	# after it passes player position offscreen, return to the spawn position
 	# Call entry movement or move into position
 	enemy_state = enemy_states.DIVE
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if player:
+		player.take_damage()
+		take_damage()

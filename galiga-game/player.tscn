@@ -1,12 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://ns3dghg7dqfm"]
+[gd_scene load_steps=4 format=3 uid="uid://ns3dghg7dqfm"]
 
 [ext_resource type="Script" uid="uid://ydghl88dojax" path="res://player.gd" id="1_4flbx"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_onrkg"]
 radius = 20.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_4flbx"]
+radius = 40.012497
+
 [node name="Player" type="CharacterBody2D"]
-collision_mask = 5
+collision_mask = 12
 script = ExtResource("1_4flbx")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -19,5 +22,13 @@ color = Color(0, 0.13725491, 0.62352943, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_onrkg")
 debug_color = Color(0, 0.6, 0.69803923, 0.5294118)
+
+[node name="Shield" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shield"]
+visible = false
+shape = SubResource("CircleShape2D_4flbx")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
