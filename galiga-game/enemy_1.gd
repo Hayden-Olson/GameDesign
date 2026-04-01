@@ -35,8 +35,8 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	if is_shooter:
 		if Time.get_ticks_msec() >= next_shoot_time:
-				shoot()
-				next_shoot_time = Time.get_ticks_msec() + blaster_rate
+			shoot()
+			next_shoot_time = Time.get_ticks_msec() + blaster_rate
 	match enemy_state:
 		enemy_states.ENTRY:
 			if not entry_done:
@@ -83,8 +83,15 @@ func take_damage():
 	health -= 1
 	if health <= 0:
 		# Call cluster script for removing enemy
+		player.add_death_count()
 		enemy_cluster.remove_enemy(self)
 		queue_free()
+		
+# This function is just for when enemy runs into the shield. They dont take damage, they just die.
+func die():
+	player.add_death_count()
+	enemy_cluster.remove_enemy(self)
+	queue_free()
 
 func set_cluster_position(PositionNode:Area2D, cluster:Area2D):
 	#look_at(position.global_position)

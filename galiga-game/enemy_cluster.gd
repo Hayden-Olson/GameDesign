@@ -83,14 +83,14 @@ func _spawn_enemy_at_index(grid_index: int) -> void:
 	
 # This function ensures the spawn queue and enemy list are empty before leveling up.
 func remove_enemy(enemy) -> void:
-	print_debug("Removing: ", enemy, " | List before: ", enemy_list.size())
 	enemy_list.erase(enemy)
-	print_debug("List after: ", enemy_list.size(), " | Queue: ", spawn_queue.size())
 	if enemy_list.size() == 0 and spawn_queue.size() == 0:
 		level_up()
  
 # Adds to the level
 func level_up() -> void:
+	var player = get_node("/root/Game/Player")
+	player.health += 1
 	level += 1
 	var enemies_to_spawn = min(30 + (level - 1) + 2, max_enemy_limit)
 	spawn_queue.clear()

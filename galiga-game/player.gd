@@ -3,6 +3,14 @@ extends CharacterBody2D
 var next_shoot_time = 0
 @export var blaster_rate = 0.5  #Time between shots
 @export var health = 5
+var can_take_damage: bool = true
+var enemies_downed = 0
+@onready var shield = get_node("/root/Game/Player/Shield")
+var shield_uses = 3
+var shield_length = 3000
+@onready var collision = $CollisionShape2D
+@onready var color_rect = $ColorRect2
+signal health_depleted
 
 func _physics_process(delta: float) -> void:
 	var direction = Input.get_vector("move_left", "move_right", "move_down", "move_up")
@@ -29,10 +37,32 @@ func _input(event):
 		if Time.get_ticks_msec() >= next_shoot_time:
 			shoot()
 			next_shoot_time = Time.get_ticks_msec() + blaster_rate
+	if event.is_action_pressed("shield") and shield_uses >= 1:
+		turn_on_shield()
 
 func take_damage():
-	health -= 1
-	#NOTIFICATION_VISIBILITY_CHANGED
-	#self.visibility_changed
+	if can_take_damage == true:
+		health -= 1
 	if health <= 0:
+		health_depleted.emit()
 		queue_free()
+	can_take_damage = false
+	#while Time.get_ticks_msec() != 10000:
+		#CanvasModulate.color
+		
+	
+	can_take_damage = true
+
+func add_death_count():
+	enemies_downed += 1
+	if enemies_downed >= 3:
+		enemies_downed = 0
+		shield_uses += 1
+		
+func turn_on_shield():
+	shield.disable_shield_time = Time.get_ticks_msec() + shield_length
+	shield.is_active = true
+	shield.visible = true
+	shield.collision.disabled = false
+	shield.color_rect.visible = true
+	shield_uses -= 1
