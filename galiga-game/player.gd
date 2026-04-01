@@ -15,8 +15,8 @@ signal health_depleted
 @onready var health_text = get_node("/root/Game/Health")
 @onready var shield_text = get_node("/root/Game/Shield")
 
-func _ready():
-	update_hud()
+#func _ready():
+	#update_hud()
 	
 func update_hud():
 	health_text.text = "Health: " + str(health)
@@ -48,9 +48,9 @@ func _input(event):
 func take_damage():
 	if can_take_damage == true:
 		health -= 1
-		update_hud()
+		#update_hud()
 	if health <= 0:
-		update_hud()
+		#update_hud()
 		health_depleted.emit()
 		queue_free()
 	can_take_damage = false
@@ -65,7 +65,7 @@ func add_death_count():
 	if enemies_downed >= required_kills:
 		enemies_downed = 0
 		shield_uses += 1
-		update_hud()
+		#update_hud()
 		
 func turn_on_shield():
 	shield.disable_shield_time = Time.get_ticks_msec() + shield_length
