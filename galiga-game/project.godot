@@ -22,6 +22,7 @@ project/assembly_name="Galiga Game"
 [global_group]
 
 Bullets=""
+enemy=""
 
 [input]
 

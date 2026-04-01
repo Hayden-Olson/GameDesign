@@ -48,7 +48,7 @@ func _physics_process(delta: float) -> void:
 	# Check if idle then call idle script
 		enemy_states.IDLE:
 			global_position = global_position.move_toward(clusterNode.global_position, SPEED * delta)
-			global_rotation_degrees = 0
+			global_rotation_degrees = 90
 			if Time.get_ticks_msec() >= next_dive_time:
 				if randf() <= .0005:
 					is_diving = true

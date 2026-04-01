@@ -21,11 +21,11 @@ func _physics_process(delta: float) -> void:
 # turn its collider off
 
 func _on_body_entered(body):
-	if body == enemy:
-		body.queue_free()
+	if body.is_in_group("enemy"):
+		body.die()
+		print_debug("Entered body")
 
 func _on_area_entered(area):
-	if area.is_in_group("enemy_bullet"):
-		area.queue_free()  # Bullets are fine to free directly
 	if area.is_in_group("enemy"):
-		area.die()  # Let the enemy handle its own cleanup
+		area.die()
+		print_debug("entered area")

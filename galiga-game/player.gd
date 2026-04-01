@@ -11,19 +11,23 @@ var shield_length = 3000
 @onready var collision = $CollisionShape2D
 @onready var color_rect = $ColorRect2
 signal health_depleted
+@export var required_kills := 25
+@onready var health_text = get_node("/root/Game/Health")
+@onready var shield_text = get_node("/root/Game/Shield")
+
+func _ready():
+	update_hud()
+	
+func update_hud():
+	health_text.text = "Health: " + str(health)
+	shield_text.text = "Shield: " + str(shield_uses)
 
 func _physics_process(delta: float) -> void:
 	var direction = Input.get_vector("move_left", "move_right", "move_down", "move_up")
 	velocity = direction * 600
 	move_and_slide()
 	
-
-#if velocity.length() > 0.0:
-	#get_node("").play_walk_animation()
-#else:
-	#get_node("").play_idle_animation()
 	
-
 func shoot():
 	const BULLET = preload("res://bullet.tscn")
 	var new_bullet = BULLET.instantiate()
@@ -43,7 +47,9 @@ func _input(event):
 func take_damage():
 	if can_take_damage == true:
 		health -= 1
+		update_hud()
 	if health <= 0:
+		update_hud()
 		health_depleted.emit()
 		queue_free()
 	can_take_damage = false
@@ -55,9 +61,10 @@ func take_damage():
 
 func add_death_count():
 	enemies_downed += 1
-	if enemies_downed >= 3:
+	if enemies_downed >= required_kills:
 		enemies_downed = 0
 		shield_uses += 1
+		update_hud()
 		
 func turn_on_shield():
 	shield.disable_shield_time = Time.get_ticks_msec() + shield_length
@@ -66,3 +73,7 @@ func turn_on_shield():
 	shield.collision.disabled = false
 	shield.color_rect.visible = true
 	shield_uses -= 1
+	update_hud()
+
+#func text_update():
+	#var health_num
