@@ -26,6 +26,7 @@ func _physics_process(delta: float) -> void:
 	var direction = Input.get_vector("move_left", "move_right", "move_down", "move_up")
 	velocity = direction * 600
 	move_and_slide()
+	update_hud()
 	
 	
 func shoot():
@@ -74,6 +75,3 @@ func turn_on_shield():
 	shield.color_rect.visible = true
 	shield_uses -= 1
 	update_hud()
-
-#func text_update():
-	#var health_num
