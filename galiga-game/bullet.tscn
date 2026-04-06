@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://c01hadt204tqx"]
+[gd_scene load_steps=4 format=3 uid="uid://c01hadt204tqx"]
 
 [ext_resource type="Script" uid="uid://hmq50dg8jgy0" path="res://bullet.gd" id="1_v7oki"]
+[ext_resource type="Texture2D" uid="uid://c8qwokmoxq0ml" path="res://pixel_perfect_assets/player_bullet.png" id="2_v8qja"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_rtl8c"]
-radius = 20.024984
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t4vbm"]
+size = Vector2(8, 22)
 
 [node name="Bullet" type="Area2D" groups=["Bullets"]]
 position = Vector2(540, 628)
@@ -12,6 +13,7 @@ collision_mask = 10
 script = ExtResource("1_v7oki")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 offset_left = -20.0
 offset_top = -20.0
 offset_right = 20.0
@@ -20,6 +22,13 @@ color = Color(1, 0.11764706, 1, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_rtl8c")
+visible = false
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_t4vbm")
+
+[node name="PlayerBullet" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(4, 4)
+texture = ExtResource("2_v8qja")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

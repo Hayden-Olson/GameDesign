@@ -14,20 +14,30 @@ signal health_depleted
 @export var required_kills := 25
 @onready var health_text = get_node("/root/Game/Health")
 @onready var shield_text = get_node("/root/Game/Shield")
+@onready var ship_left = preload("res://pixel_perfect_assets/ship_left.png")
+@onready var ship_right = preload("res://pixel_perfect_assets/ship_right.png")
+@onready var ship_idle = preload("res://pixel_perfect_assets/ship_idle.png")
 
-#func _ready():
-	#update_hud()
+func _ready():
+	$Ship.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	
 func update_hud():
 	health_text.text = "Health: " + str(health)
 	shield_text.text = "Shield: " + str(shield_uses)
 
-func _physics_process(delta: float) -> void:
-	var direction = Input.get_vector("move_left", "move_right", "move_down", "move_up")
-	velocity = direction * 600
+func _physics_process(_delta: float) -> void:
+	velocity = transform.x * Input.get_axis("move_left","move_right") * 600
 	move_and_slide()
 	update_hud()
-	
+	if Input.is_action_pressed("move_left"):
+		$Ship.texture = ship_left
+		print_debug("left")
+	elif Input.is_action_pressed("move_right"):
+		$Ship.texture = ship_right
+		print_debug("right")
+	else:
+		$Ship.texture = ship_idle
+		print_debug("idle")
 	
 func shoot():
 	const BULLET = preload("res://bullet.tscn")
@@ -44,6 +54,7 @@ func _input(event):
 			next_shoot_time = Time.get_ticks_msec() + blaster_rate
 	if event.is_action_pressed("shield") and shield_uses >= 1:
 		turn_on_shield()
+	
 
 func take_damage():
 	if can_take_damage == true:
@@ -74,4 +85,4 @@ func turn_on_shield():
 	shield.collision.disabled = false
 	shield.color_rect.visible = true
 	shield_uses -= 1
-	update_hud()
+	#update_hud()

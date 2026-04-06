@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://34femiltws1u"]
+[gd_scene load_steps=4 format=3 uid="uid://34femiltws1u"]
 
 [ext_resource type="Script" uid="uid://hmq50dg8jgy0" path="res://bullet.gd" id="1_x6kow"]
+[ext_resource type="Texture2D" uid="uid://bt1al17tyus7q" path="res://pixel_perfect_assets/enemy_bullet_1.png" id="2_gl7bs"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_rtl8c"]
-radius = 20.024984
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mgp66"]
+radius = 9.0
+height = 24.0
 
 [node name="Bullet" type="Area2D" groups=["Bullets", "enemy"]]
 position = Vector2(491, 391)
@@ -13,6 +15,7 @@ script = ExtResource("1_x6kow")
 speed = 200
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 offset_left = -20.0
 offset_top = -20.0
 offset_right = 20.0
@@ -21,6 +24,13 @@ color = Color(1, 0.11764706, 1, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_rtl8c")
+position = Vector2(0, -4)
+shape = SubResource("CapsuleShape2D_mgp66")
+
+[node name="EnemyBullet" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -2)
+scale = Vector2(4.5, 4.5)
+texture = ExtResource("2_gl7bs")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

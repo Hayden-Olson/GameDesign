@@ -40,7 +40,7 @@ unique_name_in_owner = true
 z_index = -10
 offset_right = 1152.0
 offset_bottom = 648.0
-color = Color(0.14842641, 0.0049228854, 0.14358458, 1)
+color = Color(0, 0, 0, 1)
 
 [node name="Player" parent="." instance=ExtResource("1_80nbo")]
 unique_name_in_owner = true
