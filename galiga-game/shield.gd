@@ -5,7 +5,7 @@ extends Area2D
 var disable_shield_time:= 0
 var is_active := false
 @onready var collision = $CollisionShape2D
-@onready var color_rect = $ColorRect2
+@onready var sprite = $Shield2
 
 func _ready() -> void:
 	visible = false
@@ -15,7 +15,7 @@ func _physics_process(delta: float) -> void:
 		is_active = false
 		visible = false
 		collision.disabled = true
-		color_rect.visible = false
+		sprite.visible = false
 	
 # turn its collision off
 # turn its collider off

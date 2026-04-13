@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 var next_shoot_time = 0
 @export var blaster_rate = 0.5  #Time between shots
-@export var health = 5
+@export var health := 5
 var can_take_damage: bool = true
 var enemies_downed = 0
 @onready var shield = get_node("/root/Game/Player/Shield")
@@ -17,6 +17,11 @@ signal health_depleted
 @onready var ship_left = preload("res://pixel_perfect_assets/ship_left.png")
 @onready var ship_right = preload("res://pixel_perfect_assets/ship_right.png")
 @onready var ship_idle = preload("res://pixel_perfect_assets/ship_idle.png")
+@onready var audio = $Audio
+@export var shoot_sound : AudioStream
+@export var hurt_sound : AudioStream
+@export var lose_sound : AudioStream
+var splode = preload("res://explosion.tscn")
 
 func _ready():
 	$Ship.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -42,6 +47,7 @@ func _physics_process(_delta: float) -> void:
 func shoot():
 	const BULLET = preload("res://bullet.tscn")
 	var new_bullet = BULLET.instantiate()
+	audio.play()
 	 # Add the bullet to the scene tree root instead of the player
 	get_tree().current_scene.add_child(new_bullet)
 	new_bullet.global_position = global_position # Use marker for accurate position
@@ -59,9 +65,17 @@ func _input(event):
 func take_damage():
 	if can_take_damage == true:
 		health -= 1
+		audio.stream = hurt_sound
+		audio.play()
 		#update_hud()
 	if health <= 0:
 		#update_hud()
+		audio.stream = lose_sound
+		audio.play()
+		var boom = splode.instantiate()
+	 # Add the bullet to the scene tree root instead of the player
+		get_tree().current_scene.add_child(boom)
+		boom.global_position = global_position
 		health_depleted.emit()
 		queue_free()
 	can_take_damage = false
@@ -83,6 +97,6 @@ func turn_on_shield():
 	shield.is_active = true
 	shield.visible = true
 	shield.collision.disabled = false
-	shield.color_rect.visible = true
+	shield.get_child(0).visible = true
 	shield_uses -= 1
 	#update_hud()

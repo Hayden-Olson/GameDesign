@@ -1,13 +1,51 @@
-[gd_scene load_steps=5 format=3 uid="uid://d0abx8ajnnu48"]
+[gd_scene load_steps=10 format=3 uid="uid://d0abx8ajnnu48"]
 
 [ext_resource type="Script" uid="uid://ckt6b288aruuj" path="res://enemy_1.gd" id="1_mbxyh"]
 [ext_resource type="Texture2D" uid="uid://0w1b0lk4vcc6" path="res://pixel_perfect_assets/enemy1_1.png" id="2_pjquw"]
+[ext_resource type="AudioStream" uid="uid://cbcjui4k3bc40" path="res://sounds/enemy_shoot_sound.wav" id="3_663o1"]
+[ext_resource type="Texture2D" uid="uid://ccmtvo5jcatle" path="res://pixel_perfect_assets/enemy1_2.png" id="4_ovk8a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6rg8l"]
 size = Vector2(40, 39)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mbxyh"]
 size = Vector2(38, 38)
+
+[sub_resource type="Animation" id="Animation_gqj32"]
+resource_name = "Enemy_Idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemySprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("2_pjquw"), ExtResource("4_ovk8a")]
+}
+
+[sub_resource type="Animation" id="Animation_wswjf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemySprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_pjquw")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sa1y5"]
+_data = {
+&"Enemy_Idle": SubResource("Animation_gqj32"),
+&"RESET": SubResource("Animation_wswjf")
+}
 
 [node name="Enemy1" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 2
@@ -16,6 +54,7 @@ script = ExtResource("1_mbxyh")
 health = 1
 min_blaster_rate = 2000
 max_blaster_rate = 5000
+shoot_sound = ExtResource("3_663o1")
 metadata/_edit_vertical_guides_ = [35.0]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -54,6 +93,14 @@ position = Vector2(-0.0031148866, -0.0031144395)
 rotation = -1.5707964
 scale = Vector2(4.999221, 4.999221)
 texture = ExtResource("2_pjquw")
+
+[node name="Audio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_663o1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_sa1y5")
+}
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="body_entered" from="Hitbox" to="." method="_on_area_2d_body_entered"]

@@ -22,6 +22,11 @@ var dive_rate := 0
 var next_dive_time := 10000
 var is_diving = false
 @onready var player = get_node("/root/Game/Player")
+@onready var audio = $Audio
+@export var shoot_sound : AudioStream
+
+var splode = preload("res://explosion.tscn")
+const BULLET = preload("res://enemy_bullet.tscn")
 
 func _ready():
 	# randf() returns a value between 0.0 and 1.0
@@ -49,6 +54,7 @@ func _physics_process(delta: float) -> void:
 		enemy_states.IDLE:
 			global_position = global_position.move_toward(clusterNode.global_position, SPEED * delta)
 			global_rotation_degrees = 90
+			$AnimationPlayer.play("Enemy_Idle")
 			if Time.get_ticks_msec() >= next_dive_time:
 				if randf() <= .0005:
 					is_diving = true
@@ -70,27 +76,32 @@ func _physics_process(delta: float) -> void:
 	
 # Shoot behavior is handled here.
 func shoot():
-	const BULLET = preload("res://enemy_bullet.tscn")
+	
 	var new_bullet = BULLET.instantiate()
+	audio.stream = shoot_sound
+	audio.play()
 	 # Add the bullet to the scene tree root instead of the player
 	get_tree().current_scene.add_child(new_bullet)
 	new_bullet.global_position = global_position # Use marker for accurate position
 	new_bullet.global_rotation = PI
-	
+	new_bullet.is_enemy_bullet = true
 
 # Enemy damage is handled here.
 func take_damage():
 	health -= 1
 	if health <= 0:
 		# Call cluster script for removing enemy
-		player.add_death_count()
-		enemy_cluster.remove_enemy(self)
-		queue_free()
+		die()
 		
 # This function is just for when enemy runs into the shield. They dont take damage, they just die.
 func die():
 	player.add_death_count()
 	enemy_cluster.remove_enemy(self)
+	var boom = splode.instantiate()
+	 # Add the bullet to the scene tree root instead of the player
+	get_tree().current_scene.add_child(boom)
+	boom.global_position = global_position
+	
 	queue_free()
 
 func set_cluster_position(PositionNode:Area2D, cluster:Area2D):
